@@ -3,9 +3,15 @@
 import os, subprocess
 import sys
 
+if len(sys.argv) != 2:
+	print("Usage: ./try.py <UUID of the TM disk>")
+	exit(1)
+
+UUID = sys.argv[1]
+
 def tryPass(pwd):
 
-	command = 'diskutil coreStorage unlockVolume 8D9DB037-6993-48EA-A800-DBBA6220B928 -passphrase %s' % pwd
+	command = 'diskutil coreStorage unlockVolume %d -passphrase %s' % (UUID,pwd)
 
 	try:
 		output = subprocess.check_output(
@@ -28,6 +34,8 @@ while number <= 10000000:
 
 	if tryPass(pwd):
 		break
+
 	if number % 1000 == 0:
 		print("Tried %d psw" % number)
+
 	number += 1
